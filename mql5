@@ -1,0 +1,98 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                              Bober Ready.mq5     |
+//|                            Copyright © 2022, Forex Robot Easy Team|
+//|                                    https://forexroboteasy.com    |
+//+------------------------------------------------------------------+
+
+// Define input parameters
+input ENUM_STRATEGY_TYPE StrategyType = STRATEGY_TYPE_AGGRESSIVE;
+input double LotSize = 0.01;
+input int StopLoss = 100;
+input int TakeProfit = 200;
+
+// Define global variables
+bool g_isInitialized = false;
+bool g_isTradingEnabled = false;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Initialize the trading robot
+    g_isInitialized = true;
+    return INIT_SUCCEEDED;
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+    // Deinitialize the trading robot
+    g_isInitialized = false;
+}
+
+//+------------------------------------------------------------------+
+//| Expert tick function                                             |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Check if trading is enabled and the robot is initialized
+    if (g_isTradingEnabled && g_isInitialized)
+    {
+        // Get the current market data
+        double currentPrice = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+
+        // Check the selected strategy type
+        if (StrategyType == STRATEGY_TYPE_AGGRESSIVE)
+        {
+            // Place aggressive trade
+            PlaceTrade(currentPrice, LotSize, StopLoss, TakeProfit);
+        }
+        else if (StrategyType == STRATEGY_TYPE_CONSERVATIVE)
+        {
+            // Place conservative trade
+            PlaceTrade(currentPrice, LotSize * 0.5, StopLoss * 2, TakeProfit * 2);
+        }
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Place trade function                                             |
+//+------------------------------------------------------------------+
+void PlaceTrade(const double price, const double lotSize, const int stopLoss, const int takeProfit)
+{
+    // Place the trade based on the provided parameters
+    // ...
+    // Code for placing the trade goes here
+    // ...
+}
+
+//+------------------------------------------------------------------+
+//| Enable trading function                                          |
+//+------------------------------------------------------------------+
+void EnableTrading()
+{
+    // Enable trading
+    g_isTradingEnabled = true;
+}
+
+//+------------------------------------------------------------------+
+//| Disable trading function                                         |
+//+------------------------------------------------------------------+
+void DisableTrading()
+{
+    // Disable trading
+    g_isTradingEnabled = false;
+}
+
+//+------------------------------------------------------------------+
+//| Get trading status function                                      |
+//+------------------------------------------------------------------+
+bool IsTradingEnabled()
+{
+    // Return the current trading status
+    return g_isTradingEnabled;
+}
